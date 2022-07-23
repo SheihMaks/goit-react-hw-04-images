@@ -1,38 +1,40 @@
-import React from "react";
+import {useState} from "react";
+import PropTypes from 'prop-types';
 import {ImSearch} from "react-icons/im";
 import { SearchBarContainer,SearchForm,SearchFormInput,SearchFormButton } from "./SearchBar.styled";
 
-export class SearchBar extends React.Component{
-    state={
-        searchPicture:''
+export const SearchBar=({onSubmit})=>{
+    
+    const [searchPicture,setSearchPictures]=useState('')
+    
+
+    const onInputSearch=(e)=>{
+        setSearchPictures(e.currentTarget.value)
     }
 
-    onInputSearch=(e)=>{
-        this.setState({searchPicture:e.currentTarget.value})
-    }
-
-    onClickSearch=(e)=>{
+    const onClickSearch=(e)=>{
         e.preventDefault()
-        this.props.onSubmit(this.state.searchPicture)
+        onSubmit(searchPicture)
     }
 
-    render(){
-        const {searchPicture}=this.state;
-        const {onClickSearch,onInputSearch}=this;
-        return(<SearchBarContainer>
-<SearchForm onSubmit={onClickSearch}>
-<SearchFormButton
-type='submit'
-><ImSearch/></SearchFormButton>
-<SearchFormInput
-type='text'
-name='searchPicture'
-placeholder="Enter something for search pictures"
-onChange={onInputSearch}
-value={searchPicture}
-/>
-</SearchForm>
-            </SearchBarContainer>
-        )
+    return(<SearchBarContainer>
+    <SearchForm 
+    onSubmit={onClickSearch}>
+    <SearchFormButton
+    type='submit'>
+    <ImSearch/>
+    </SearchFormButton>
+    <SearchFormInput
+    type='text'
+    name='searchPicture'
+    placeholder="Enter something for search pictures"
+    onChange={onInputSearch}
+    value={searchPicture}
+    />
+    </SearchForm>
+    </SearchBarContainer>)
     }
-}
+
+    SearchBar.propTypes={
+        onSubmit:PropTypes.func.isRequired,
+    }
