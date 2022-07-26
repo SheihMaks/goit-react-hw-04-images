@@ -30,8 +30,10 @@ export const App=()=>{
       try {
       const pictures=await PictureService.fetchPictures(page,query);
       showingButton(pictures)
-      setSearchedPictures((prevState)=>[...prevState,...pictures.hits])
-      setTotalHits(pictures.totalHits)}
+      console.log(pictures.hits)
+      setSearchedPictures((prevState)=> page === 1 ? 
+      [...pictures.hits]: [...prevState, ...pictures.hits])
+          setTotalHits(pictures.totalHits)}
       catch { toast.warn('Error')} 
       finally {
         setStatus('resolved')}
@@ -42,6 +44,12 @@ export const App=()=>{
 useEffect(()=>{
   if (imageModal){ window.addEventListener('keydown',closeModal);
 return ()=>window.removeEventListener('keydown',closeModal)}},[imageModal])
+
+useEffect(()=>{window.scrollBy({
+  top: document.body.scrollHeight,
+  behavior: 'smooth',
+});
+}, [searchedPictures])
 
 const showingButton=(pictures)=>{
   const {per_page}= PictureService.options;
@@ -70,7 +78,6 @@ const onMoreButton=()=>{
   };
 
   const closeModal=(ev)=>{
-    console.log(ev);
     if (ev.key ==='Escape' || ev.target === ev.currentTarget){
         setImageModal('');
         // window.removeEventListener('keydown',closeModal)
