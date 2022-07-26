@@ -1,4 +1,4 @@
-import {useState,useEffect,} from "react";
+import {useState,useEffect,useRef,useLayoutEffect} from "react";
 import React from "react";
 import { Spiner } from './SpinnerApp/Spiner';
 import { ToastContainer,toast } from 'react-toastify';
@@ -12,20 +12,22 @@ export const App=()=>{
 
   const [status,setStatus]=useState('idle');
   const [query,setQuery]=useState(
-    ()=>{
-    return JSON.parse(sessionStorage.getItem("query")) ?? ''});
+    ()=>{return JSON.parse(sessionStorage.getItem("query")) ?? ''});
   const [searchedPictures,setSearchedPictures]=useState([]);
   const [page,setPage]=useState(1);
   const [totalHits,setTotalHits]=useState('');
   const [imageModal,setImageModal]=useState('');
   const [isVisibleBtn,setIsVisibleBtn]=useState(false);
+
+  useEffect(()=>{
+    sessionStorage.setItem("query", JSON.stringify(query))},[query])
   
   useEffect(()=>{
-    const getPictures= async(page,query)=>{
-      if(!query) return; 
-    setStatus("pending")
+    if(!query) return; 
     setIsVisibleBtn(false)
-    try {
+      setStatus("pending")
+    const getPictures= async(page,query)=>{
+      try {
       const pictures=await PictureService.fetchPictures(page,query);
       showingButton(pictures)
       setSearchedPictures((prevState)=>[...prevState,...pictures.hits])
@@ -38,8 +40,9 @@ export const App=()=>{
 // eslint-disable-next-line react-hooks/exhaustive-deps
 },[page, query])
 
-useEffect(()=>{
-  sessionStorage.setItem("query", JSON.stringify(query))},[query])
+
+
+
 
 useEffect(()=>{if (imageModal){ window.addEventListener('keydown',closeModal);
 return ()=>window.removeEventListener('keydown',closeModal)}},[imageModal])
@@ -62,8 +65,8 @@ const onMoreButton=()=>{
       if (searchData.trim()===''){
         return toast.warn('Enter Something fo search!')}
       setQuery(searchData);
-      setPage(1);
-      setSearchedPictures([]);
+      // setPage(1);
+      // setSearchedPictures([]);
   }
 
   const openModal=(largeImgLink)=> {setImageModal(largeImgLink);
