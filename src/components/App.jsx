@@ -1,4 +1,5 @@
-import {useState,useEffect,useRef,useLayoutEffect} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useState,useEffect,} from "react";
 import React from "react";
 import { Spiner } from './SpinnerApp/Spiner';
 import { ToastContainer,toast } from 'react-toastify';
@@ -9,10 +10,9 @@ import * as PictureService from "Service/API";
 import {UncorrectSearchMessage} from './UncorrectSearchMessageApp/UccorrectSearchMessage';
 
 export const App=()=>{
-
   const [status,setStatus]=useState('idle');
-  const [query,setQuery]=useState(
-    ()=>{return JSON.parse(sessionStorage.getItem("query")) ?? ''});
+  const [query,setQuery]=useState('')
+    // ()=>{return JSON.parse(sessionStorage.getItem("query")) ?? ''});
   const [searchedPictures,setSearchedPictures]=useState([]);
   const [page,setPage]=useState(1);
   const [totalHits,setTotalHits]=useState('');
@@ -37,14 +37,10 @@ export const App=()=>{
         setStatus('resolved')}
     }  
     getPictures(page, query) 
-// eslint-disable-next-line react-hooks/exhaustive-deps
 },[page, query])
 
-
-
-
-
-useEffect(()=>{if (imageModal){ window.addEventListener('keydown',closeModal);
+useEffect(()=>{
+  if (imageModal){ window.addEventListener('keydown',closeModal);
 return ()=>window.removeEventListener('keydown',closeModal)}},[imageModal])
 
 const showingButton=(pictures)=>{
@@ -60,27 +56,27 @@ const onMoreButton=()=>{
     setPage((prev)=>prev+1)
       }
   
-    const handleSubmit=(searchData)=>{
+  const handleSubmit=(searchData)=>{
       if (query===searchData && query !== '') return;
       if (searchData.trim()===''){
         return toast.warn('Enter Something fo search!')}
       setQuery(searchData);
-      // setPage(1);
-      // setSearchedPictures([]);
+      setPage(1);
+      setSearchedPictures([]);
   }
 
   const openModal=(largeImgLink)=> {setImageModal(largeImgLink);
     // window.addEventListener('keydown',closeModal)
   };
 
-   const closeModal=(ev)=>{
+  const closeModal=(ev)=>{
     console.log(ev);
     if (ev.key ==='Escape' || ev.target === ev.currentTarget){
         setImageModal('');
         // window.removeEventListener('keydown',closeModal)
       }
   };
-    return (<><SearchBar onSubmit={handleSubmit}/>
+  return (<><SearchBar onSubmit={handleSubmit}/>
     {status==="resolved" && searchedPictures.length !== 0 && <ImageGallery 
     searchedPictures={searchedPictures}
     openModal={openModal}

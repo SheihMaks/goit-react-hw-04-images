@@ -1,4 +1,5 @@
-import {useState} from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useState,useEffect} from "react";
 import PropTypes from 'prop-types';
 import {ImSearch} from "react-icons/im";
 import { SearchBarContainer,SearchForm,SearchFormInput,SearchFormButton } from "./SearchBar.styled";
@@ -9,6 +10,9 @@ export const SearchBar=({onSubmit})=>{
         return JSON.parse(sessionStorage.getItem("query")) ?? '';
     })
     
+    useEffect(()=>{if (searchPicture){
+        onSubmit(searchPicture)}},[])
+
     const onInputSearch=(e)=>{
         setSearchPictures(e.currentTarget.value)
     }
