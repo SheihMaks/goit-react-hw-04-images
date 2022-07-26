@@ -6,8 +6,8 @@ import { ImageGalleryItem } from 'components/ImageGalleryItemApp/ImageGalleryIte
 export const ImageGallery=({searchedPictures, openModal, closeModal,imageModal})=>{
     return (<ImageGalleryList >
     {searchedPictures.map(el=>{ 
-        const {webformatURL,largeImageURL}=el;
-        return(<ImageGalleryItem key={el.id} 
+        const {webformatURL,largeImageURL,id}=el;
+        return(<ImageGalleryItem key={id} 
         webFormat={webformatURL} 
         onOpenModal={openModal}
         closeModal={closeModal} 

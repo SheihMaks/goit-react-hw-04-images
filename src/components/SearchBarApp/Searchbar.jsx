@@ -5,9 +5,10 @@ import { SearchBarContainer,SearchForm,SearchFormInput,SearchFormButton } from "
 
 export const SearchBar=({onSubmit})=>{
     
-    const [searchPicture,setSearchPictures]=useState('')
+    const [searchPicture,setSearchPictures]=useState(()=>{
+        return JSON.parse(sessionStorage.getItem("query")) ?? '';
+    })
     
-
     const onInputSearch=(e)=>{
         setSearchPictures(e.currentTarget.value)
     }
