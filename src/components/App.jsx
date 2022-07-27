@@ -30,7 +30,6 @@ export const App=()=>{
       try {
       const pictures=await PictureService.fetchPictures(page,query);
       showingButton(pictures)
-      console.log(pictures.hits)
       setSearchedPictures((prevState)=> page === 1 ? 
       [...pictures.hits]: [...prevState, ...pictures.hits])
           setTotalHits(pictures.totalHits)}
