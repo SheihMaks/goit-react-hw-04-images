@@ -30,9 +30,8 @@ export const App=()=>{
       try {
       const pictures=await PictureService.fetchPictures(page,query);
       showingButton(pictures)
-      setSearchedPictures((prevState)=> page === 1 ? 
-      [...pictures.hits]: [...prevState, ...pictures.hits])
-          setTotalHits(pictures.totalHits)}
+      setSearchedPictures((prevState)=>[...prevState, ...pictures.hits]);
+      setTotalHits(pictures.totalHits)}
       catch { toast.warn('Error')} 
       finally {
         setStatus('resolved')}
