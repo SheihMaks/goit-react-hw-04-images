@@ -71,9 +71,7 @@ const onMoreButton=()=>{
       setSearchedPictures([]);
   }
 
-  const openModal=(largeImgLink)=> {setImageModal(largeImgLink);
-    // window.addEventListener('keydown',closeModal)
-  };
+  const openModal=(largeImgLink)=> {setImageModal(largeImgLink)};
 
   const closeModal=(ev)=>{
     if (ev.key ==='Escape' || ev.target === ev.currentTarget){
