@@ -39,11 +39,11 @@ export const App=()=>{
     getPictures(page, query) 
 },[page, query])
 
-useEffect(()=>{
-  if (imageModal){ window.addEventListener('keydown',closeModal);
-return ()=>window.removeEventListener('keydown',closeModal)}},[imageModal])
 
-useEffect(()=>{window.scrollBy({
+
+useEffect(()=>{
+  if(page===1) return;
+  window.scrollBy({
   top: document.body.scrollHeight,
   behavior: 'smooth',
 });
@@ -77,12 +77,12 @@ const onMoreButton=()=>{
 
   const closeModal=(ev)=>{
     if (ev.key ==='Escape' || ev.target === ev.currentTarget){
-        setImageModal('');
-        // window.removeEventListener('keydown',closeModal)
+      setImageModal('');
       }
   };
+ 
   return (<><SearchBar onSubmit={handleSubmit}/>
-    {status==="resolved" && searchedPictures.length !== 0 && <ImageGallery 
+    {searchedPictures.length !== 0 && <ImageGallery 
     searchedPictures={searchedPictures}
     openModal={openModal}
     closeModal={closeModal}

@@ -1,13 +1,18 @@
-import React from "react";
+import {useEffect} from "react";
 import PropTypes from 'prop-types';
 import { ModalWindow, Overlay,ModalImage } from "./Modal.styled"
 
 export const Modal=({onCloseModal,imageModal})=>{
-        return(<Overlay onClick={onCloseModal}>
-    <ModalWindow>
-    <ModalImage src={imageModal} alt="" />
-    </ModalWindow>
-</Overlay>)
+    useEffect(()=>{
+        if (imageModal){ window.addEventListener('keydown',onCloseModal);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    return ()=>window.removeEventListener('keydown',onCloseModal)}},[imageModal]);
+        
+      return(<Overlay onClick={onCloseModal}>
+        <ModalWindow>
+        <ModalImage src={imageModal} alt="" />
+        </ModalWindow>
+        </Overlay>)
 }
 
 Modal.propTypes={
